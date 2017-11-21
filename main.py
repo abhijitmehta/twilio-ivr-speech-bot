@@ -329,7 +329,19 @@ def token():
     token.add_grant(sync_grant)
     # Return token info as JSON
     return jsonify(identity=identity, token=token.to_jwt().decode('utf-8'))
-								  
+
+
+
+#### sync token
+#############
+@app.route('/getMapDetails')
+def syncMap():
+    client = Client(twilio_account_sid, twilio_auth_token)
+    sync_map = 'ASRBotEvents'
+    map_items = client.sync.services(twilio_sync_service_id).sync_maps(sync_map).fetch()
+    return map_items
+
+
 #####
 ##### AWS Polly for Text to Speech
 ##### This function calls Polly and then streams out the in-memory media in mp3 format
